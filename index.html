@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Habits Survey</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e11;
+    --surface: #18181d;
+    --surface2: #22222a;
+    --accent: #c8f06a;
+    --accent2: #6af0c8;
+    --text: #f0f0f0;
+    --muted: #8888a0;
+    --border: #2e2e3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -40%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200,240,106,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .survey-wrap {
+    width: 100%;
+    max-width: 560px;
+    position: relative;
+  }
+
+  .header {
+    margin-bottom: 48px;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(200,240,106,0.1);
+    border: 1px solid rgba(200,240,106,0.2);
+    color: var(--accent);
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  .pill::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    max-width: 340px;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* Progress */
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    width: 20%;
+  }
+
+  /* Questions */
+  .question-card {
+    display: none;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .question-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-number {
+    font-family: 'Syne', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .q-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(18px, 3vw, 22px);
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .q-hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.5;
+  }
+
+  /* Options grid */
+  .options {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .options.cols-2 { grid-template-columns: 1fr 1fr; }
+
+  .option {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 400;
+    transition: all 0.2s;
+    cursor: pointer;
+    line-height: 1.4;
+  }
+
+  .option-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .option input:checked + .option-label {
+    background: rgba(200,240,106,0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .option-label:hover {
+    border-color: rgba(200,240,106,0.4);
+    background: var(--surface2);
+  }
+
+  /* Text area */
+  textarea {
+    width: 100%;
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 18px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s;
+    min-height: 110px;
+    margin-bottom: 32px;
+  }
+
+  textarea:focus { border-color: var(--accent); }
+  textarea::placeholder { color: var(--muted); }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .btn-back {
+    background: none;
+    border: none;
+    color: var(--muted);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 0;
+    transition: color 0.2s;
+  }
+
+  .btn-back:hover { color: var(--text); }
+  .btn-back.hidden { visibility: hidden; }
+
+  .btn-next {
+    background: var(--accent);
+    color: #0e0e11;
+    border: none;
+    border-radius: 100px;
+    padding: 14px 32px;
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(200,240,106,0.25);
+  }
+
+  .btn-next:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Thank you screen */
+  #done-screen {
+    display: none;
+    text-align: center;
+    padding: 40px 0;
+    animation: slideIn 0.4s ease;
+  }
+
+  .done-icon {
+    font-size: 56px;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  #done-screen h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  #done-screen h2 span { color: var(--accent); }
+
+  #done-screen p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 480px) {
+    .options.cols-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="survey-wrap">
+
+  <div id="survey-body">
+    <div class="header">
+      <div class="pill">Quick survey · 2 min</div>
+      <h1>You keep coming back.<br><span>Tell us why.</span></h1>
+      <p class="subtitle">5 quick questions to help us understand what makes your daily habit tick.</p>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+
+    <!-- Q1: Timing (routine anchor — Fogg: ability/context) -->
+    <div class="question-card active" id="q1">
+      <div class="q-number">01 / 05</div>
+      <div class="q-text">When do you usually open the app each day?</div>
+      <div class="q-hint">Pick the moment that fits best — your honest default.</div>
+      <div class="options cols-2">
+        <label class="option"><input type="radio" name="q1" value="wake"><div class="option-label"><span class="option-icon">🌅</span>Right when I wake up</div></label>
+        <label class="option"><input type="radio" name="q1" value="morning"><div class="option-label"><span class="option-icon">☕</span>During my morning routine</div></label>
+        <label class="option"><input type="radio" name="q1" value="midday"><div class="option-label"><span class="option-icon">☀️</span>Midday break</div></label>
+        <label class="option"><input type="radio" name="q1" value="before_school"><div class="option-label"><span class="option-icon">🎒</span>Before school / work</div></label>
+        <label class="option"><input type="radio" name="q1" value="after_school"><div class="option-label"><span class="option-icon">🏃</span>After school / practice</div></label>
+        <label class="option"><input type="radio" name="q1" value="evening"><div class="option-label"><span class="option-icon">🌆</span>Evening wind-down</div></label>
+        <label class="option"><input type="radio" name="q1" value="bedtime"><div class="option-label"><span class="option-icon">🌙</span>Right before bed</div></label>
+        <label class="option"><input type="radio" name="q1" value="varies"><div class="option-label"><span class="option-icon">🔀</span>Varies day to day</div></label>
+      </div>
+    </div>
+
+    <!-- Q2: Trigger / Prompt (Fogg: prompt) -->
+    <div class="question-card" id="q2">
+      <div class="q-number">02 / 05</div>
+      <div class="q-text">What usually reminds you or prompts you to open the app?</div>
+      <div class="q-hint">What's the nudge that gets you there?</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q2" value="notif"><div class="option-label"><span class="option-icon">🔔</span>A notification or reminder</div></label>
+        <label class="option"><input type="radio" name="q2" value="habit"><div class="option-label"><span class="option-icon">🔁</span>It's just part of my routine — I don't need a reminder</div></label>
+        <label class="option"><input type="radio" name="q2" value="bored"><div class="option-label"><span class="option-icon">😶</span>When I have a free moment or feel bored</div></label>
+        <label class="option"><input type="radio" name="q2" value="streak"><div class="option-label"><span class="option-icon">🔥</span>I don't want to break my streak</div></label>
+        <label class="option"><input type="radio" name="q2" value="friend"><div class="option-label"><span class="option-icon">👥</span>A friend or social activity in the app</div></label>
+      </div>
+    </div>
+
+    <!-- Q3: Core motivation (Fogg: motivation — pleasure, hope, belonging) -->
+    <div class="question-card" id="q3">
+      <div class="q-number">03 / 05</div>
+      <div class="q-text">What keeps you coming back every day?</div>
+      <div class="q-hint">Choose the one that resonates most deeply.</div>
+      <div class="options">
+        <label class="option"><input type="radio" name="q3" value="progress"><div class="option-label"><span class="option-icon">📈</span>Seeing my progress grow — it proves I'm improving</div></label>
+        <label class="option"><input type="radio" name="q3" value="goal"><div class="option-label"><span class="option-icon">🎯</span>I have a specific goal and this helps me reach it</div></label>
+        <label class="option"><input type="radio" name="q3" value="feel_good"><div class="option-label"><span class="option-icon">✨</span>It just makes me feel good or calm</div></label>
+        <label class="option"><input type="radio" name="q3" value="identity"><div class="option-label"><span class="option-icon">🙋</span>It's become part of who I am</div></label>
+        <label class="option"><input type="radio" name="q3" value="community"><div class="option-label"><span class="option-icon">❤️</span>The people or community here</div></label>
+        <label class="option"><input type="radio" name="q3" value="fun"><div class="option-label"><span class="option-icon">🎮</span>Honestly, it's just fun</div></label>
+      </div>
+    </div>
+
+    <!-- Q4: Reward / feeling after (Fogg: motivation — reinforcing the behavior loop) -->
+    <div class="question-card" id="q4">
+      <div class="q-number">04 / 05</div>
+      <div class="q-text">How do you feel right after you finish your daily session?</div>
+      <div class="q-hint">First instinct is usually the most honest.</div>
+      <div class="options cols-2">
+        <label class="option"><input type="radio" name="q4" value="accomplished"><div class="option-label"><span class="option-icon">💪</span>Accomplished</div></label>
+        <label class="option"><input type="radio" name="q4" value="calm"><div class="option-label"><span class="option-icon">🧘</span>Calm / clear-headed</div></label>
+        <label class="option"><input type="radio" name="q4" value="energized"><div class="option-label"><span class="option-icon">⚡</span>Energized</div></label>
+        <label class="option"><input type="radio" name="q4" value="connected"><div class="option-label"><span class="option-icon">🌐</span>Connected</div></label>
+        <label class="option"><input type="radio" name="q4" value="motivated"><div class="option-label"><span class="option-icon">🚀</span>More motivated</div></label>
+        <label class="option"><input type="radio" name="q4" value="relieved"><div class="option-label"><span class="option-icon">😮‍💨</span>Relieved (glad it's done)</div></label>
+      </div>
+    </div>
+
+    <!-- Q5: Improvement / friction (qualitative insight) -->
+    <div class="question-card" id="q5">
+      <div class="q-number">05 / 05</div>
+      <div class="q-text">If you could change one thing to make coming back even better, what would it be?</div>
+      <div class="q-hint">No wrong answers — small annoyances count too.</div>
+      <textarea id="q5-text" placeholder="I'd love it if..." rows="4"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back hidden" id="btn-back">← Back</button>
+      <button class="btn-next" id="btn-next" disabled>Continue →</button>
+    </div>
+  </div>
+
+  <div id="done-screen">
+    <span class="done-icon">🙌</span>
+    <h2>Thanks for keeping it <span>real.</span></h2>
+    <p>Your answers help us understand what makes daily habits stick — so we can make the experience even better for people like you.</p>
+  </div>
+
+</div>
+
+<script>
+  const totalQ = 5;
+  let current = 1;
+
+  const progress = document.getElementById('progress');
+  const btnNext = document.getElementById('btn-next');
+  const btnBack = document.getElementById('btn-back');
+
+  function updateProgress() {
+    progress.style.width = (current / totalQ * 100) + '%';
+  }
+
+  function checkAnswered() {
+    if (current === 5) {
+      btnNext.disabled = document.getElementById('q5-text').value.trim().length < 3;
+      btnNext.textContent = 'Submit ✓';
+    } else {
+      const sel = document.querySelector(`input[name="q${current}"]:checked`);
+      btnNext.disabled = !sel;
+      btnNext.textContent = current < 5 ? 'Continue →' : 'Submit ✓';
+    }
+  }
+
+  // Radio change listeners
+  document.querySelectorAll('input[type="radio"]').forEach(r => {
+    r.addEventListener('change', checkAnswered);
+  });
+
+  // Textarea listener
+  document.getElementById('q5-text').addEventListener('input', checkAnswered);
+
+  btnNext.addEventListener('click', () => {
+    if (current < totalQ) {
+      document.getElementById('q' + current).classList.remove('active');
+      current++;
+      document.getElementById('q' + current).classList.add('active');
+      btnBack.classList.remove('hidden');
+      updateProgress();
+      checkAnswered();
+      if (current === totalQ) btnNext.textContent = 'Submit ✓';
+    } else {
+      // Submit
+      const answers = {
+        timing:      document.querySelector('input[name="q1"]:checked')?.value,
+        prompt:      document.querySelector('input[name="q2"]:checked')?.value,
+        motivation:  document.querySelector('input[name="q3"]:checked')?.value,
+        feeling:     document.querySelector('input[name="q4"]:checked')?.value,
+        improvement: document.getElementById('q5-text').value
+      };
+
+      // *** REPLACE THE URL BELOW WITH YOUR FORMSPREE ENDPOINT ***
+      fetch('https://formspree.io/f/xbdawaqz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(answers)
+      });
+      // ***********************************************************
+
+      document.getElementById('survey-body').style.display = 'none';
+      document.getElementById('done-screen').style.display = 'block';
+    }
+  });
+
+  btnBack.addEventListener('click', () => {
+    if (current > 1) {
+      document.getElementById('q' + current).classList.remove('active');
+      current--;
+      document.getElementById('q' + current).classList.add('active');
+      if (current === 1) btnBack.classList.add('hidden');
+      updateProgress();
+      checkAnswered();
+      btnNext.textContent = 'Continue →';
+    }
+  });
+
+  updateProgress();
+</script>
+</body>
+</html>
