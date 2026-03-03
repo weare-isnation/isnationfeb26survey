@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Daily Habits Survey</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@700;800&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0e0e11;
@@ -83,13 +83,13 @@
   }
 
   h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: 38px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 50px;
     font-weight: 800;
     line-height: 1.0;
-    letter-spacing: -0.03em;
+    letter-spacing: -0.01em;
     margin-bottom: 12px;
-    max-width: 300px;
+    max-width: 420px;
   }
 
   h1 span { color: var(--accent); }
@@ -342,7 +342,7 @@
         <label class="option"><input type="radio" name="q1" value="After school / practice"><div class="option-label"><span class="option-icon">🏃</span>After school / practice</div></label>
         <label class="option"><input type="radio" name="q1" value="Evening wind-down"><div class="option-label"><span class="option-icon">🌆</span>Evening wind-down</div></label>
         <label class="option"><input type="radio" name="q1" value="Right before bed"><div class="option-label"><span class="option-icon">🌙</span>Right before bed</div></label>
-        <label class="option"><input type="radio" name="q1" value="Varies day to day"><div class="option-label"><span class="option-icon">🔀</span>Varies day to day</div></label>
+        <label class="option"><input type="radio" name="q1" value="Other"><div class="option-label"><span class="option-icon">🔀</span>Other</div></label>
       </div>
     </div>
 
@@ -353,10 +353,10 @@
       <div class="q-hint">What's the nudge that gets you there?</div>
       <div class="options">
         <label class="option"><input type="radio" name="q2" value="A notification or reminder"><div class="option-label"><span class="option-icon">🔔</span>A notification or reminder</div></label>
-        <label class="option"><input type="radio" name="q2" value="It's just part of my routine — I don't need a reminder"><div class="option-label"><span class="option-icon">🔁</span>It's just part of my routine — I don't need a reminder</div></label>
+        <label class="option"><input type="radio" name="q2" value="I just remember - it's part of my routine"><div class="option-label"><span class="option-icon">🧠</span>I just remember - it's part of my routine</div></label>
         <label class="option"><input type="radio" name="q2" value="When I have a free moment or feel bored"><div class="option-label"><span class="option-icon">😶</span>When I have a free moment or feel bored</div></label>
         <label class="option"><input type="radio" name="q2" value="I don't want to break my streak"><div class="option-label"><span class="option-icon">🔥</span>I don't want to break my streak</div></label>
-        <label class="option"><input type="radio" name="q2" value="A friend or social activity in the app"><div class="option-label"><span class="option-icon">👥</span>A friend or social activity in the app</div></label>
+        <label class="option"><input type="radio" name="q2" value="A parent, friend, or coach"><div class="option-label"><span class="option-icon">👥</span>A parent, friend, or coach</div></label>
       </div>
     </div>
 
@@ -366,12 +366,13 @@
       <div class="q-text">What keeps you coming back every day?</div>
       <div class="q-hint">Choose the one that resonates most deeply.</div>
       <div class="options">
-        <label class="option"><input type="radio" name="q3" value="Seeing my progress grow — it proves I'm improving"><div class="option-label"><span class="option-icon">📈</span>Seeing my progress grow — it proves I'm improving</div></label>
+        <label class="option"><input type="radio" name="q3" value="Feeling my progress grow — it proves I'm improving"><div class="option-label"><span class="option-icon">📈</span>Feeling my progress grow — it proves I'm improving</div></label>
         <label class="option"><input type="radio" name="q3" value="I have a specific goal and this helps me reach it"><div class="option-label"><span class="option-icon">🎯</span>I have a specific goal and this helps me reach it</div></label>
         <label class="option"><input type="radio" name="q3" value="It just makes me feel good or calm"><div class="option-label"><span class="option-icon">✨</span>It just makes me feel good or calm</div></label>
         <label class="option"><input type="radio" name="q3" value="It's become part of who I am"><div class="option-label"><span class="option-icon">🙋</span>It's become part of who I am</div></label>
-        <label class="option"><input type="radio" name="q3" value="The people or community here"><div class="option-label"><span class="option-icon">❤️</span>The people or community here</div></label>
-        <label class="option"><input type="radio" name="q3" value="Honestly, it's just fun"><div class="option-label"><span class="option-icon">🎮</span>Honestly, it's just fun</div></label>
+        <label class="option"><input type="radio" name="q3" value="The people or community here"><div class="option-label"><span class="option-icon">🤝</span>The people or community here</div></label>
+        <label class="option"><input type="radio" name="q3" value="Honestly, it's just fun"><div class="option-label"><span class="option-icon">🎉</span>Honestly, it's just fun</div></label>
+        <label class="option"><input type="radio" name="q3" value="Someone who cares recommended I build mental fitness skills"><div class="option-label"><span class="option-icon">❤️</span>Someone who cares recommended I build mental fitness skills</div></label>
       </div>
     </div>
 
@@ -384,7 +385,7 @@
         <label class="option"><input type="radio" name="q4" value="Accomplished"><div class="option-label"><span class="option-icon">💪</span>Accomplished</div></label>
         <label class="option"><input type="radio" name="q4" value="Calm / clear-headed"><div class="option-label"><span class="option-icon">🧘</span>Calm / clear-headed</div></label>
         <label class="option"><input type="radio" name="q4" value="Energized"><div class="option-label"><span class="option-icon">⚡</span>Energized</div></label>
-        <label class="option"><input type="radio" name="q4" value="Connected"><div class="option-label"><span class="option-icon">🌐</span>Connected</div></label>
+        <label class="option"><input type="radio" name="q4" value="Connected"><div class="option-label"><span class="option-icon">🤝</span>Connected</div></label>
         <label class="option"><input type="radio" name="q4" value="More motivated"><div class="option-label"><span class="option-icon">🚀</span>More motivated</div></label>
         <label class="option"><input type="radio" name="q4" value="Relieved (glad it's done)"><div class="option-label"><span class="option-icon">😮‍💨</span>Relieved (glad it's done)</div></label>
       </div>
