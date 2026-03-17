@@ -379,24 +379,30 @@
     <!-- Q4: Reward / feeling after (Fogg: motivation — reinforcing the behavior loop) -->
     <div class="question-card" id="q4">
       <div class="q-number">04 / 05</div>
-      <div class="q-text">How do you feel right after you finish your daily session?</div>
-      <div class="q-hint">First instinct is usually the most honest.</div>
+      <div class="q-text">How do you feel right after you use the ISNation app?</div>
+      <div class="q-hint">What's the feeling you leave with?</div>
       <div class="options cols-2">
         <label class="option"><input type="radio" name="q4" value="Accomplished"><div class="option-label"><span class="option-icon">💪</span>Accomplished</div></label>
         <label class="option"><input type="radio" name="q4" value="Calm / clear-headed"><div class="option-label"><span class="option-icon">🧘</span>Calm / clear-headed</div></label>
         <label class="option"><input type="radio" name="q4" value="Energized"><div class="option-label"><span class="option-icon">⚡</span>Energized</div></label>
-        <label class="option"><input type="radio" name="q4" value="Connected"><div class="option-label"><span class="option-icon">🤝</span>Connected</div></label>
+        <label class="option"><input type="radio" name="q4" value="Understood"><div class="option-label"><span class="option-icon">🤝</span>Understood</div></label>
         <label class="option"><input type="radio" name="q4" value="More motivated"><div class="option-label"><span class="option-icon">🚀</span>More motivated</div></label>
-        <label class="option"><input type="radio" name="q4" value="Relieved (glad it's done)"><div class="option-label"><span class="option-icon">😮‍💨</span>Relieved (glad it's done)</div></label>
+        <label class="option"><input type="radio" name="q4" value="Reflective"><div class="option-label"><span class="option-icon">💭</span>Reflective</div></label>
+        <label class="option"><input type="radio" name="q4" value="Relieved"><div class="option-label"><span class="option-icon">😮‍💨</span>Relieved</div></label>
+        <label class="option"><input type="radio" name="q4" value="Other"><div class="option-label"><span class="option-icon">💬</span>Other</div></label>
       </div>
     </div>
 
     <!-- Q5: Improvement / friction (qualitative insight) -->
     <div class="question-card" id="q5">
       <div class="q-number">05 / 05</div>
-      <div class="q-text">If you could change one thing to make coming back even better, what would it be?</div>
-      <div class="q-hint">No wrong answers — small annoyances count too.</div>
+      <div class="q-text">What's something you would change if you could?</div>
+      <div class="q-hint">Everything you share helps us reach other student athletes.</div>
       <textarea id="q5-text" placeholder="I'd love it if..." rows="4"></textarea>
+      <div style="margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--border);">
+        <div style="font-size: 13px; color: var(--muted); margin-bottom: 10px;">Your responses can be anonymous — but if you'd like to share your name, we'd love to know who you are.</div>
+        <input type="text" id="q5-name" placeholder="Your name (optional)" style="width:100%; background: var(--surface); border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 18px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
     </div>
 
     <div class="btn-row">
@@ -460,7 +466,8 @@
         prompt:      document.querySelector('input[name="q2"]:checked')?.value,
         motivation:  document.querySelector('input[name="q3"]:checked')?.value,
         feeling:     document.querySelector('input[name="q4"]:checked')?.value,
-        improvement: document.getElementById('q5-text').value
+        improvement: document.getElementById('q5-text').value,
+        name:        document.getElementById('q5-name').value || 'Anonymous'
       };
 
       // *** REPLACE THE URL BELOW WITH YOUR FORMSPREE ENDPOINT ***
